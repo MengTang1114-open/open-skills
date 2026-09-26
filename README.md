@@ -14,3 +14,7 @@ open-skills/
 ```
 
 这是公开仓库。不要放私人笔记、密钥或未开源的项目文件。
+
+## 已公开的 Skill
+
+- [m-directing-stickman-videos-cn](m-directing-stickman-videos-cn/)：从话题生成中文火柴人短视频的五级架构、短文、逐段视频 Prompt 和配音。视频模型可替换，相邻视频段用上一段实际尾帧接续。
