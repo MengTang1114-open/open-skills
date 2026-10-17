@@ -1,0 +1,51 @@
+{
+  "kicker": "FIG 02 // AGENT TEAM",
+  "title": "An Agent Team, From Issue to Production",
+  "subtitle": "Lead plans · 3 workers in parallel · failures loop back",
+  "summary": "An Opus lead splits the issue into parallel tasks; failing CI loops work back, production alerts roll back and re-plan, and a human only signs off.",
+  "footer": "claude --agents team.yaml",
+  "nodes": [
+    {"id": "issue", "label": "New Issue", "desc": "#482: export reports", "tag": "input", "icon": "#"},
+    {"id": "lead", "label": "Lead Agent", "desc": "Splits into 3 tasks", "tag": "opus", "icon": "O"},
+    {"id": "fe", "label": "Frontend", "desc": "Button + progress bar", "tag": "worker", "icon": "F"},
+    {"id": "be", "label": "Backend", "desc": "Streams the CSV", "tag": "worker", "icon": "B"},
+    {"id": "qa", "label": "Test Writer", "desc": "Adds 24 test cases", "tag": "worker", "icon": "T"},
+    {"id": "ci", "label": "CI Pipeline", "desc": "Build + 312 tests", "tag": "check", "icon": "C"},
+    {"id": "sec", "label": "Security", "desc": "Auth, injection", "tag": "review", "icon": "S"},
+    {"id": "perf", "label": "Benchmark", "desc": "p99 under 200ms", "tag": "review", "icon": "P"},
+    {"id": "human", "label": "Human OK", "desc": "Read summary, approve", "tag": "human", "icon": "Y"},
+    {"id": "ship", "label": "Canary Deploy", "desc": "5% → 50% → 100%", "tag": "deploy", "icon": "D"}
+  ],
+  "edges": [
+    {"from": "issue", "to": "lead"},
+    {"from": "lead", "to": "fe"},
+    {"from": "lead", "to": "be"},
+    {"from": "lead", "to": "qa"},
+    {"from": "fe", "to": "ci"},
+    {"from": "be", "to": "ci"},
+    {"from": "qa", "to": "ci"},
+    {"from": "ci", "to": "be", "label": "tests fail"},
+    {"from": "ci", "to": "sec"},
+    {"from": "ci", "to": "perf"},
+    {"from": "sec", "to": "human"},
+    {"from": "perf", "to": "human"},
+    {"from": "lead", "to": "human", "label": "status report"},
+    {"from": "human", "to": "ship"},
+    {"from": "ship", "to": "lead", "label": "alert · rollback"}
+  ],
+  "steps": [
+    {"nodes": ["issue"], "caption": "A new issue lands: add CSV export to the admin panel."},
+    {"nodes": ["lead"], "caption": "The lead reads the codebase and splits the work three ways."},
+    {"nodes": ["fe", "be", "qa"], "title": "Workers in parallel", "caption": "Three cheap workers start at once, each touching only its own files.", "sec": 3.4},
+    {"nodes": ["ci"], "caption": "CI run #1: two tests fail, so the backend task loops back.", "sec": 3.2},
+    {"nodes": ["sec", "perf"], "title": "Double review", "caption": "Once green, security and performance reviews run side by side."},
+    {"nodes": ["human"], "caption": "The human does one thing: read the summary, approve."},
+    {"nodes": ["ship"], "caption": "Canary rollout. Any alert rolls back and hands it to the lead.", "sec": 3.2}
+  ],
+  "stats": [
+    {"label": "agents", "value": 6},
+    {"label": "tests", "value": 312},
+    {"label": "minutes", "value": 18},
+    {"label": "cost $", "value": 2.40}
+  ]
+}

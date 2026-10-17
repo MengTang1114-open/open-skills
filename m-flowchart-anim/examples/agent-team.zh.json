@@ -1,0 +1,51 @@
+{
+  "kicker": "FIG 02 // AGENT TEAM",
+  "title": "一个 Agent 团队，从需求到上线",
+  "subtitle": "主管拆任务 · 三个 Worker 并行 · 失败自动回炉",
+  "summary": "Opus 主管把需求拆成并行任务，三个 Worker 同时开工；CI 失败自动打回，上线后告警直接回滚并重新规划，人只在关键节点点头。",
+  "footer": "claude --agents team.yaml",
+  "nodes": [
+    {"id": "issue", "label": "新需求", "desc": "Issue #482：导出报表", "tag": "input", "icon": "#"},
+    {"id": "lead", "label": "主管 Agent", "desc": "拆成 3 个并行任务", "tag": "opus", "icon": "O"},
+    {"id": "fe", "label": "前端 Worker", "desc": "导出按钮 + 进度条", "tag": "haiku", "icon": "F"},
+    {"id": "be", "label": "后端 Worker", "desc": "流式生成 CSV", "tag": "haiku", "icon": "B"},
+    {"id": "qa", "label": "测试 Worker", "desc": "补 24 个用例", "tag": "haiku", "icon": "T"},
+    {"id": "ci", "label": "CI 流水线", "desc": "构建 + 312 个测试", "tag": "check", "icon": "C"},
+    {"id": "sec", "label": "安全审查", "desc": "权限、注入、越权", "tag": "review", "icon": "S"},
+    {"id": "perf", "label": "性能基准", "desc": "p99 < 200ms", "tag": "review", "icon": "P"},
+    {"id": "human", "label": "人工批准", "desc": "看汇总，点一下", "tag": "human", "icon": "Y"},
+    {"id": "ship", "label": "灰度发布", "desc": "5% → 50% → 100%", "tag": "deploy", "icon": "D"}
+  ],
+  "edges": [
+    {"from": "issue", "to": "lead"},
+    {"from": "lead", "to": "fe"},
+    {"from": "lead", "to": "be"},
+    {"from": "lead", "to": "qa"},
+    {"from": "fe", "to": "ci"},
+    {"from": "be", "to": "ci"},
+    {"from": "qa", "to": "ci"},
+    {"from": "ci", "to": "be", "label": "测试失败"},
+    {"from": "ci", "to": "sec"},
+    {"from": "ci", "to": "perf"},
+    {"from": "sec", "to": "human"},
+    {"from": "perf", "to": "human"},
+    {"from": "lead", "to": "human", "label": "进度汇报"},
+    {"from": "human", "to": "ship"},
+    {"from": "ship", "to": "lead", "label": "告警 · 回滚"}
+  ],
+  "steps": [
+    {"nodes": ["issue"], "caption": "一个新需求进来：给后台加「导出报表」。"},
+    {"nodes": ["lead"], "caption": "主管 Agent 读完代码库，把活拆成前端、后端、测试三块。"},
+    {"nodes": ["fe", "be", "qa"], "title": "三个 Worker 并行", "caption": "三个便宜的 Worker 同时开工，各自只碰自己的文件。", "sec": 3.4},
+    {"nodes": ["ci"], "caption": "合进 CI：第一轮有 2 个测试失败，自动打回后端重写。", "sec": 3.2},
+    {"nodes": ["sec", "perf"], "title": "双重审查", "caption": "测试全绿后，安全和性能两个审查同时跑。"},
+    {"nodes": ["human"], "caption": "人只做一件事：看主管的汇总，点批准。"},
+    {"nodes": ["ship"], "caption": "灰度发布；一旦告警，自动回滚并交回主管重新规划。", "sec": 3.2}
+  ],
+  "stats": [
+    {"label": "agents", "value": 6},
+    {"label": "tests", "value": 312},
+    {"label": "minutes", "value": 18},
+    {"label": "cost $", "value": 2.40}
+  ]
+}

@@ -1,0 +1,36 @@
+/* ① 学术论文风: white page, serif, Fig. caption, paragraphs highlighted in sync with the figure. */
+#stage { background: #fdfcf9; color: #1a1a1a; padding: 56px 72px 76px; display: flex; flex-direction: column;
+  font-family: "Noto Serif CJK SC", "Source Han Serif SC", "Songti SC", "Times New Roman", serif; }
+.pp-run { display: flex; justify-content: space-between; font-size: 17px; color: #555; font-style: italic;
+  border-bottom: 1px solid #222; padding-bottom: 8px; }
+#title { font-size: 60px; line-height: 1.12; font-weight: 700; text-align: center; margin-top: 34px; letter-spacing: -0.5px; }
+#subtitle { font-size: 26px; text-align: center; margin-top: 12px; color: #333; }
+.pp-fig { flex: none; margin-top: 26px; height: 740px; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; padding: 26px 30px; }
+#diagram { width: 100%; height: 100%; }
+.pp-figcap { font-size: 18px; line-height: 1.5; margin-top: 12px; color: #222;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+#captions { column-count: 2; column-gap: 40px; margin-top: 22px; flex: 1; min-height: 0; font-size: 19.5px; line-height: 1.55; text-align: justify; }
+.cap { break-inside: avoid; margin-bottom: 10px; color: #333; }
+.cap-h { display: block; font-variant: small-caps; letter-spacing: 0.5px; font-size: 1em; text-align: center; margin-bottom: 2px; }
+.hl { background: linear-gradient(#dbe7f7, #dbe7f7) no-repeat 0 0 / 0% 100%; padding: 1px 0; }
+.cap.is-past .hl { background-size: 0% 100% !important; }
+.pp-foot { position: absolute; left: 72px; right: 72px; bottom: 30px; display: flex; justify-content: space-between;
+  font-size: 15px; color: #777; border-top: 1px solid #ddd; padding-top: 8px; }
+
+.node { background: #fff; border: 1.5px solid #1a1a1a; padding: calc(12px * var(--ns)) calc(14px * var(--ns)); text-align: center; }
+.node.is-hub { border-width: 2.5px; }
+.n-tag { font-family: "DejaVu Sans Mono", monospace; font-size: calc(13px * var(--ns)); letter-spacing: 1.5px; color: #666; text-transform: uppercase; }
+.n-label { font-size: calc(30px * var(--ns)); font-weight: 700; margin-top: 3px; line-height: 1.2; }
+.n-desc { font-size: calc(19px * var(--ns)); font-style: italic; color: #444; margin-top: 4px; line-height: 1.35; }
+.n-bar, .n-status { display: none; }
+.node.is-active { background: #e6eefa; border-color: #1f4e9c; box-shadow: 0 0 0 calc(3px + 3px * var(--pulse)) rgba(31, 78, 156, 0.18); }
+.node.is-done { background: #f3f6fb; }
+.edge-base { stroke: #9a9a9a; stroke-width: 1.4; stroke-dasharray: 5 5; }
+.edge-draw { stroke: #1a1a1a; stroke-width: 1.8; }
+.is-loop .edge-draw { stroke: #1f4e9c; }
+.arrow-base { fill: #9a9a9a; } .arrow-live { fill: #1a1a1a; }
+.edge-label { fill: #333; font-style: italic; paint-order: stroke; stroke: #fdfcf9; stroke-width: 6px; }
+.n-head { justify-content: center; }
+.n-ripple { color: #1f4e9c; }
+#title, #subtitle { opacity: var(--intro); }
+.token { fill: #1a1a1a; }
